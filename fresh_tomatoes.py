@@ -9,7 +9,7 @@ main_page_head = '''
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>Fresh Tomatoes!</title>
+    <title>Associated Movie Trailers</title>
 
     <!-- Bootstrap 3 -->
     <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css">
@@ -39,6 +39,9 @@ main_page_head = '''
             margin-bottom: 20px;
             padding-top: 20px;
         }
+        .person-row{
+        	padding: 10px;
+        }
         .movie-tile:hover {
             background-color: #EEE;
             cursor: pointer;
@@ -56,6 +59,15 @@ main_page_head = '''
             top: 0;
             background-color: white;
         }
+        .footer {
+		    bottom: 0;
+		    width: 100%;
+		    background-color: #f5f5f5;
+		    text-align: center;
+		}
+		.container .text-muted {
+    		margin: 20px 0;
+		}
     </style>
     <script type="text/javascript" charset="utf-8">
         // Pause the video when the modal is closed
@@ -104,27 +116,48 @@ main_page_content = '''
 
     <!-- Main Page Content -->
     <div class="container">
-      <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container">
           <div class="navbar-header">
-            <a class="navbar-brand" href="#">Fresh Tomatoes Movie Trailers</a>
+            <a class="navbar-brand" href="#">{person} Movie Trailers</a>
           </div>
         </div>
       </div>
     </div>
     <div class="container">
-      {movie_tiles}
+      <div class="row person-row">
+        <div class="col-md-6 col-lg-4">
+          <img src="{profile}" width="auto" height="342">
+        </div>
+        <div class="col-md-6 col-lg-8">
+          <h1>{person}</h1>
+            <p>{bio}</p>
+            <p><strong>{person} is known for the following movies:</strong></p>
+        </div>
+      </div>
+      <div class="row">
+      	{movie_tiles}
+      </div>
     </div>
   </body>
+'''
+main_page_footer = '''
+  <footer class="footer">
+  	<div class="container">
+  	  <p class="text-muted">
+  	    <img src="https://www.themoviedb.org/assets/static_cache/23e473036b28a59bd5dcfde9c671b1c5/images/v4/logos/312x276-primary-green.png" width="auto" height="24px">
+  	    This product uses the TMDb API but is not endorsed or certified by TMDb.
+  	  </p>  	  
+  	</div>  
+  </footer>
 </html>
 '''
-
 
 # A single movie entry html template
 movie_tile_content = '''
 <div class="col-md-6 col-lg-4 movie-tile text-center" data-trailer-youtube-id="{trailer_youtube_id}" data-toggle="modal" data-target="#trailer">
     <img src="{poster_image_url}" width="220" height="342">
-    <h2>{movie_title}</h2>
+    <h3>{movie_title}</h3>
 </div>
 '''
 
@@ -145,21 +178,48 @@ def create_movie_tiles_content(movies):
         content += movie_tile_content.format(
             movie_title=movie.title,
             poster_image_url=movie.poster_image_url,
-            trailer_youtube_id=trailer_youtube_id
+            trailer_youtube_id=movie.trailer_youtube_url
         )
     return content
 
 
-def open_movies_page(movies):
+def open_movies_page(movies, person):
     # Create or overwrite the output file
     output_file = open('fresh_tomatoes.html', 'w')
 
     # Replace the movie tiles placeholder generated content
     rendered_content = main_page_content.format(
-        movie_tiles=create_movie_tiles_content(movies))
+        movie_tiles=create_movie_tiles_content(movies),
+        person=person.title,
+        profile=person.poster_image_url,
+        bio=person.bio
+    )
 
     # Output the file
-    output_file.write(main_page_head + rendered_content)
+    output_file.write(main_page_head + rendered_content + main_page_footer)
+    output_file.close()
+
+    # open the output file in the browser (in a new tab, if possible)
+    url = os.path.abspath(output_file.name)
+    webbrowser.open('file://' + url, new=2)
+
+
+def error_page():
+    # Create or overwrite the output file
+    output_file = open('fresh_tomatoes.html', 'w')
+
+    # Replace the movie tiles placeholder generated content
+    rendered_content = main_page_content.format(
+        movie_tiles='''
+          <div class="alert alert-danger" role="alert">
+  		    <strong>Error!</strong> Person not found.
+		  </div>
+		''',
+        person=''
+    )
+
+    # Output the file
+    output_file.write(main_page_head + rendered_content + main_page_footer)
     output_file.close()
 
     # open the output file in the browser (in a new tab, if possible)
