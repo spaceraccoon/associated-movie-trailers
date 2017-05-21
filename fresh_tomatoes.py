@@ -65,9 +65,9 @@ main_page_head = '''
             background-color: #f5f5f5;
             text-align: center;
         }
-    .container .text-muted {
-        margin: 20px 0;
-    }
+        .container .text-muted {
+            margin: 20px 0;
+        }
     </style>
     <script type="text/javascript" charset="utf-8">
         // Pause the video when the modal is closed
