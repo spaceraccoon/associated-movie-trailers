@@ -23,4 +23,5 @@ Next, use pip to install the packages. Installation instructions for pip can be 
 
 ### Running
 
-`python main.py`
+1. `cd PATH_TO_FOLDER`
+2. `python main.py`
