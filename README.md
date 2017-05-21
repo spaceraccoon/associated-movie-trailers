@@ -25,3 +25,8 @@ Next, use pip to install the packages. Installation instructions for pip can be 
 
 1. `cd PATH_TO_FOLDER`
 2. `python main.py`
+
+## Attribution
+
+AMT modified the example from [Boostrap](http://getbootstrap.com/examples/sticky-footer-navbar/) for the footer.
+.
