@@ -15,3 +15,12 @@ AMT is built on Python and uses two additional packages, [tmdbsimple](https://py
 Next, use pip to install the packages. Installation instructions for pip can be found [here](https://pip.pypa.io/en/stable/installing/).
 1. `pip install tmdbsimple`
 2. `pip install wikipedia`
+
+### Installation
+
+1. Use `git clone` to download the project.
+2. Open main.py and set `tmdb.API_KEY` and `PERSON` to your desired values.
+
+### Running
+
+`python main.py`
