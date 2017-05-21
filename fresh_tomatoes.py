@@ -60,11 +60,11 @@ main_page_head = '''
             background-color: white;
         }
         .footer {
-        bottom: 0;
-        width: 100%;
-        background-color: #f5f5f5;
-        text-align: center;
-    }
+            bottom: 0;
+            width: 100%;
+            background-color: #f5f5f5;
+            text-align: center;
+        }
     .container .text-muted {
         margin: 20px 0;
     }
